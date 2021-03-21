@@ -5,7 +5,8 @@
   "repository": "https://github.com/W00ST/dumpster-dreams",
   "license": "UNRELEASED",
   "scripts": {
-    "start": "./node_modules/.bin/nf start"
+    "start": "./node_modules/.bin/nf start",
+    "deploy": "yarn workspace @app/client build && yarn workspace @app/api setup"
   },
   "workspaces": {
     "packages": [
