@@ -16,30 +16,16 @@ router.use(compression())
 router.use(cors())
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
+router.use(express.static(path.join(__dirname, 'views', 'client')))
 
 // NOTE: tests can't find the views directory without this
 app.set('views', path.join(__dirname, 'views'))
-
 router.get('/', (req, res) => {
-  const currentInvoke = getCurrentInvoke()
-  const { event = {} } = currentInvoke
-  const {
-    requestContext = {},
-    multiValueHeaders = {}
-  } = event
-  const { stage = '' } = requestContext
-  const {
-    Host = ['localhost:3000']
-  } = multiValueHeaders
-  const apiUrl = `https://${Host[0]}/${stage}`
-  res.render('index', {
-    apiUrl,
-    stage
-  })
+  res.render('client/index')
 })
 
-router.get('/vendia', (req, res) => {
-  res.sendFile(path.join(__dirname, 'vendia-logo.png'))
+router.get('/admin', (req, res) => {
+  // TODO: Route to admin client app html
 })
 
 router.get('/users', (req, res) => {

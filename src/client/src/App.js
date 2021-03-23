@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import request from 'superagent'
 import './App.css'
 
 const INVENTORY = [
@@ -8,7 +9,7 @@ const INVENTORY = [
   },
   {
     name: 'sweet-mirror',
-    price: 201,
+    price: 345,
   },
   {
     name: 'table',
@@ -38,8 +39,8 @@ const MainPage = (props) => {
   return (
     <div>
       <button onClick={props.toCheckout}>To Checkout</button>
-      {props.inventory.map((item, index) => 
-        <div className='item-card' onClick={props.addToCart(index)}>
+      {props.inventory.map((item, index) =>
+        <div className='item-card' onClick={props.addToCart(index)} key={`${index}-item-card`}>
           <p>{item.name}</p>
           <p>{item.price}</p>
         </div>
@@ -48,8 +49,17 @@ const MainPage = (props) => {
   )
 }
 function App() {
-  const [inventory, setInventory] = useState(INVENTORY)
+  const [inventory] = useState(INVENTORY)
   const [isCheckout, setCheckout] = useState(false)
+
+  useEffect(() => {
+    (async () => {
+      const result = await request.get('/users')
+
+      console.log(result.body)
+
+    })();
+  });
 
   const addToCart = (index) => event => {
     // const updatedItem = { ...inventory[index], inCart: true }
@@ -59,7 +69,7 @@ function App() {
     //   ...inventory.slice(index + 1)
     // ])
   }
-  
+
   return (
     <div className='App'>
       {isCheckout
@@ -68,13 +78,13 @@ function App() {
           toMainPage={() => setCheckout(false)} />
         : <MainPage
           inventory={inventory}
-          toCheckout={() => setCheckout(true)} 
+          toCheckout={() => setCheckout(true)}
           addToCart={addToCart}
         />
       }
     </div>
   )
-      
+
 }
 
 export default App;
