@@ -13,6 +13,18 @@ Conditions:
       - Ref: DomainName
       - ''
 Resources:
+  InventoryDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
   ExpressApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -22,7 +34,7 @@ Resources:
   ExpressLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dumpster-dreams/b44906ebc958c27f6a484e50f5192dd7
+      CodeUri: s3://dumpster-dreams/65dcf880751dd8926a819eef897bff19
       Handler: main.handler
       MemorySize: 1024
       Runtime: nodejs12.x

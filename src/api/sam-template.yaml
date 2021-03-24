@@ -16,6 +16,19 @@ Conditions:
         - ''
 
 Resources:
+  InventoryDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+
   ExpressApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -30,6 +43,9 @@ Resources:
       MemorySize: 1024
       Runtime: nodejs12.x
       Timeout: 30
+      Environment: 
+        Variables: 
+          INVENTORY_TABLE_NAME: !Ref InventoryDynamoDBTable
       Events:
         ProxyApiRoot:
           Type: Api
