@@ -36,12 +36,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/inventory', (req, res) => {
-  const inventory = 
+  const inventory =
   res.json(inventory)
 })
 
 router.post('/products', async (req, res) => {
   const validated = validate('product', req.body)
+  console.log(process.env.INVENTORY_TABLE_NAME)
+  console.log(process.env.AWS_REGION)
   const message = await db.put({
     TableName: process.env.INVENTORY_TABLE_NAME,
     Item: validated

@@ -5,7 +5,7 @@
   "repository": "https://github.com/W00ST/dumpster-dreams",
   "license": "UNRELEASED",
   "scripts": {
-    "start": "./node_modules/.bin/nf start",
+    "start": "./node_modules/.bin/dotenv ./node_modules/.bin/nf start",
     "deploy": "yarn workspace @app/client build && yarn workspace @app/api setup"
   },
   "workspaces": {
@@ -14,6 +14,8 @@
     ]
   },
   "devDependencies": {
+    "dotenv-cli": "^4.0.0",
     "foreman": "^3.0.1"
-  }
+  },
+  "dependencies": {}
 }
