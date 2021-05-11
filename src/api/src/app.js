@@ -31,19 +31,20 @@ console.log(process.env.INVENTORY_TABLE_NAME)
 
 // NOTE: tests can't find the views directory without this
 app.set('views', path.join(__dirname, 'views'))
+
 router.get('/', (req, res) => {
   res.render('client/index')
 })
 
-router.get('/inventory', (req, res) => {
-  const inventory =
+router.get('/api/inventory', async (req, res) => {
+  const inventory = await db.scan({
+    TableName: process.env.INVENTORY_TABLE_NAME
+  }).promise()
   res.json(inventory)
 })
 
-router.post('/products', async (req, res) => {
+router.post('/admin/inventory', async (req, res) => {
   const validated = validate('product', req.body)
-  console.log(process.env.INVENTORY_TABLE_NAME)
-  console.log(process.env.AWS_REGION)
   const message = await db.put({
     TableName: process.env.INVENTORY_TABLE_NAME,
     Item: validated
@@ -52,14 +53,27 @@ router.post('/products', async (req, res) => {
   res.json({ success: true })
 })
 
-router.get('/admin', (req, res) => {
-  // TODO: Route to admin client app html
+router.put('/admin/inventory', async (req, res) => {
+  const id = req.body.id
+  console.log('id', id);
+  const itemName = req.body.name
+  console.log('itemName', itemName);
+
+  const message = await db.put({
+    TableName: process.env.INVENTORY_TABLE_NAME,
+    Item: {
+      'id': id,
+      'name': req.body.name,
+      'price': req.body.price
+    }
+  }).promise().catch(console.log)
+  console.log(message, 'message');
+  res.json({success: true})
 })
 
 router.get('/users', (req, res) => {
   res.json(users)
 })
-
 router.get('/users/:userId', (req, res) => {
   const user = getUser(req.params.userId)
 
