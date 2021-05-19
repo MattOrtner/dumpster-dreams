@@ -8,8 +8,7 @@
 
 .top-bar_spacer {
   width: 200px;
-  background-color: rgb(197, 151, 240, .25);
-  ;
+  /* background-color: rgb(197, 151, 240, .25); */
 }
 
 .top-bar {
@@ -52,15 +51,15 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 3px solid gray;
-  height: 80vh;
+  flex-wrap: wrap;
+  /* height: 80vh;   */
 }
 
 .item-card {
   background-color: rgb(197, 151, 240, .25);
   border-radius: 1.2rem;
   height: 75%;
-  flex-grow: 1;
+  flex-basis: 25%;
   margin: 5px;
   display: flex;
   flex-direction: column;
@@ -104,4 +103,24 @@
   height: 50px;
   width: 100%;
   font-weight: 700;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 5px 30px;
+  /* background-color: lightgreen; */
+  padding: 5px;
+}
+
+.thankyou {
+  background-color: cornflowerblue;
+  color: lightpink;
+  width: 300px;
+  font-size: larger;
+}
+
+.email {
+  width: 150px;
+  /* background-color: lightcoral; */
 }
